@@ -1,0 +1,21 @@
+[package]
+name = "crustgraver"
+version = "0.1.0"
+edition = "2024"
+
+[[bin]]
+name = "crustgraver"
+path = "src/main.rs"
+
+[dependencies]
+serialport= "4.3" 	# serial communication
+image = "0.25" 	  	# image loading + pixel ops
+anyhow = "1" 	  	# ergonomic error handling
+thiserror = "1"   	# custom error types 
+parking_lot = "0.12" 	# faster Mutex/RwLock than std
+log = "0.4"		# logging facade
+env_logger = "0.11"	# logging backend (defined by the env var RUST_LOG=debug ./crustgraver)
+eframe = "0.27"		# egui application framework (window, event loop)
+egui = "0.27"		# immediate-mode GUI widgets
+egui_extras = "0.27"	# extra widgets (image display, tables)
+rfd = "0.14"		# native file dialog ("Open file...")
