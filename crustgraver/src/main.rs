@@ -25,7 +25,7 @@ fn main() -> Result<()> {
     thread::sleep(Duration::from_secs(1));
 
     // ── set power (safe test value) ───────────────────────────────────────────
-    e.set_power(70, 70)?;
+    e.set_power(80, 80)?;
     thread::sleep(Duration::from_millis(200));
 
     // ── preview test (traces a bounding box) ─────────────────────────────────
