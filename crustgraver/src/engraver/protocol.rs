@@ -67,7 +67,7 @@ pub fn stop_window() -> Vec<u8> {
 
 // ── laser power ───────────────────────────────────────────────────────────────
 
-/// Set laser PWM power (0–255) and idle power
+/// Set laser PWM power (0-255) and idle power
 pub fn set_power(power: u8, idle: u8) -> Vec<u8> {
     vec![
         HEADER, 0xAA, 0x0B, 0x03, 0x01, 0x0F,
