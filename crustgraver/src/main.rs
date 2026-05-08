@@ -47,6 +47,8 @@ fn main() -> Result<()> {
     thread::sleep(Duration::from_millis(300));
 
     // ── burn test (comment out if you don't want to actually engrave) ─────────
+    // be careful when turning off the machine mid burn, it might keep the old laser power settings
+    // that it used while burning, add logic to turn off burns or pause them
     println!("Burning logo.png ...");
     e.burn_image("logo.png", 50, 50)?;
     e.wait_for_completion(0);
