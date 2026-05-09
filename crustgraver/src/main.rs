@@ -286,11 +286,7 @@ impl eframe::App for App {
                             } else {
                                 Color32::from_rgb(160, 50, 50)
                             };
-                            let label = if connected {
-                                "● Online"
-                            } else {
-                                "● Offline"
-                            };
+                            let label = if connected { "Online" } else { "Offline" };
                             ui.label(RichText::new(label).color(dot_col).size(12.0));
                         });
                         if let Some(e) = &self.connect_error {
@@ -600,14 +596,14 @@ impl eframe::App for App {
                             );
                             if self.invert {
                                 ui.label(
-                                    RichText::new("(white → burn, black → skip)")
+                                    RichText::new("(white -> burn, black -> skip)")
                                         .size(10.0)
                                         .color(Color32::from_rgb(180, 140, 60))
                                         .italics(),
                                 );
                             } else {
                                 ui.label(
-                                    RichText::new("(black → burn, white → skip)")
+                                    RichText::new("(black -> burn, white -> skip)")
                                         .size(10.0)
                                         .color(Color32::from_rgb(120, 120, 140))
                                         .italics(),
