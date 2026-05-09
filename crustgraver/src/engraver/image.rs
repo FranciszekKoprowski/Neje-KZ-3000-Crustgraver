@@ -1,3 +1,4 @@
+
 use anyhow::{bail, Result};
 use image::{DynamicImage, GenericImageView, Pixel};
  
@@ -106,12 +107,16 @@ pub fn image_dimensions(img: &DynamicImage) -> (u16, u16, u32) {
  
 /// Apply a simple threshold to convert a colour image to a crisp 1-bit look
 /// before encoding.  Threshold 0-255; lower = more dark pixels.
-pub fn threshold_image(img: &DynamicImage, threshold: u8) -> DynamicImage {
+/// If `invert` is true, the result is flipped: white becomes burned, black skipped.
+/// Use this for white logos on dark backgrounds.
+pub fn threshold_image(img: &DynamicImage, threshold: u8, invert: bool) -> DynamicImage {
     use image::{GrayImage, Luma};
     let gray = img.to_luma8();
     let mut out = GrayImage::new(gray.width(), gray.height());
     for (x, y, px) in gray.enumerate_pixels() {
-        let v = if px[0] < threshold { 0u8 } else { 255u8 };
+        let dark = px[0] < threshold;
+        let burn = if invert { !dark } else { dark };
+        let v = if burn { 0u8 } else { 255u8 };
         out.put_pixel(x, y, Luma([v]));
     }
     DynamicImage::ImageLuma8(out)
