@@ -1,0 +1,43 @@
+name: Crustgraver Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build-release:
+    runs-on: node20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Rust
+        run: |
+          curl https://sh.rustup.rs -sSf | sh -s -- -y
+          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+
+      - name: Show versions
+        run: |
+          rustc --version
+          cargo --version
+
+      - name: Build release
+        run: cargo build --release
+
+      - name: Prepare release files
+        run: |
+          mkdir dist
+
+          cp target/release/YOUR_BINARY_NAME dist/
+
+          tar -czf crustgraver-linux-x86_64.tar.gz -C dist crustgraver
+
+      - name: Create Forgejo release
+        uses: https://code.forgejo.org/forgejo/forgejo-release-action@v2
+        with:
+          direction: upload
+          release-dir: .
+          tag: ${{ github.ref_name }}
+          token: ${{ secrets.GITHUB_TOKEN }}
