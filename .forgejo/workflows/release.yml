@@ -39,7 +39,7 @@ jobs:
         run: |
           mkdir dist
 
-          cp target/release/YOUR_BINARY_NAME dist/
+          cp target/release/crustgraver dist/
 
           tar -czf crustgraver-linux-x86_64.tar.gz -C dist crustgraver
 
