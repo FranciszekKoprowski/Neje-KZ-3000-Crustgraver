@@ -35,7 +35,7 @@ jobs:
           tar -czf crustgraver-linux-x86_64.tar.gz -C dist crustgraver
 
       - name: Create Forgejo release
-        uses: docker://code.forgejo.org/forgejo/forgejo-release-action:2
+        uses: https://github.com/forgejo/forgejo-release-action@v2
         with:
           direction: upload
           release-dir: .
