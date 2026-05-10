@@ -17,6 +17,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Install dependencies
+        run: |
+          apt-get update
+          apt-get install -y pkg-config libudev-dev
+
       - name: Install Rust
         run: |
           curl https://sh.rustup.rs -sSf | sh -s -- -y
