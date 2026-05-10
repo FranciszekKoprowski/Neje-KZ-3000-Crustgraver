@@ -44,9 +44,28 @@ jobs:
           tar -czf crustgraver-linux-x86_64.tar.gz -C dist crustgraver
 
       - name: Create Forgejo release
-        uses: docker://code.forgejo.org/forgejo/forgejo-release-action:2
-        with:
-          direction: upload
-          release-dir: .
-          tag: ${{ github.ref_name }}
-          token: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          FORGEJO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          FORGEJO_URL: ${{ github.server_url }}
+          REPO: ${{ github.repository }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          # Create the release
+          curl -sf -X POST \
+            -H "Authorization: token $FORGEJO_TOKEN" \
+            -H "Content-Type: application/json" \
+            "$FORGEJO_URL/api/v1/repos/$REPO/releases" \
+            -d "{\"tag_name\":\"$TAG\",\"name\":\"$TAG\",\"draft\":false,\"prerelease\":false}"
+
+          # Get the release ID
+          RELEASE_ID=$(curl -sf \
+            -H "Authorization: token $FORGEJO_TOKEN" \
+            "$FORGEJO_URL/api/v1/repos/$REPO/releases/tags/$TAG" \
+            | grep -o '"id":[0-9]*' | head -1 | cut -d: -f2)
+
+          # Upload the asset
+          curl -sf -X POST \
+            -H "Authorization: token $FORGEJO_TOKEN" \
+            -H "Content-Type: application/octet-stream" \
+            "$FORGEJO_URL/api/v1/repos/$REPO/releases/$RELEASE_ID/assets?name=crustgraver-linux-x86_64.tar.gz" \
+            --data-binary @crustgraver-linux-x86_64.tar.gz
