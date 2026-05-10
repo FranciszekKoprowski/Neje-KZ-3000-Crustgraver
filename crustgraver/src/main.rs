@@ -228,6 +228,10 @@ impl eframe::App for App {
 
                 // ── connection panel ─────────────────────────────────────────
                 section_header(ui, "CONNECTION");
+                ui.label(
+                    "The Neje KZ usually connects to /dev/ttyUSB0.
+                           Your device might differ, check /dev/ for devices.",
+                );
                 egui::Frame::none()
                     .fill(Color32::from_rgb(28, 28, 36))
                     .rounding(Rounding::same(6.0))
