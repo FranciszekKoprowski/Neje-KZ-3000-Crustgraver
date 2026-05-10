@@ -9,6 +9,10 @@ jobs:
   build-release:
     runs-on: node20
 
+    defaults:
+      run:
+        working-directory: crustgraver
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
